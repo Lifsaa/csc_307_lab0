@@ -1,16 +1,24 @@
 {
   "name": "csc-307-app",
   "version": "1.0.0",
-  "main": "index.js",
+   "main": "packages/express-backend/backend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm --prefix packages/react-frontend start"
+    "dev:backend": "npx --prefix packages/express-backend nodemon backend.js",
+    "dev:frontend": "npm --prefix packages/react-frontend start",
+    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
+  
   "author": "",
   "license": "ISC",
-  "description": ""
-  ,
+  "description": "",
   "workspaces": [
-      "packages/*"
-  ]
+    "packages/*"
+  ],
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
 }
