@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from './Table';
 import Form from './Form';
 
+
 function MyApp() {
     const [characters, setCharacters] = useState([]);
     
@@ -14,9 +15,15 @@ function MyApp() {
       postUser(person)
         .then(response =>{
           if(response.status ===201) {
-            setCharacters([...characters,person]);
+            return response.json();
           }
-        })}
+        })
+        .then(newUser => {
+          if(newUser) {
+            setCharacters([...characters, newUser]);
+          }
+        }).catch(error => console.error("Error", error))
+    }
           
     function postUser(person) {
       const promise = fetch("Http://localhost:8000/users", {

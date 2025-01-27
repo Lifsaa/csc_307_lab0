@@ -5,6 +5,11 @@ const app = express();
 const port = 8000;
 app.use(cors());
 app.use(express.json());
+
+function RNG() {
+  return Math.random().toString(36).slice(2,9);
+}
+
 const users = {
   users_list: [
     {
@@ -42,8 +47,9 @@ const findUserById = (id) => {
   return users["users_list"].find((user) => user["id"] === id);
 };
 const addUser = (user) => {
-  users["users_list"].push(user)
-  return user;
+  const newUser = { id:RNG(),...user};
+  users["users_list"].push(newUser)
+  return newUser;
 }
 const deleteUser = (id) => {
   const index = users["users_list"].findIndex(user => user["id"] === id);
@@ -93,8 +99,8 @@ app.get("/users/:id", (req,res) => {
 
 app.post("/users", (req,res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.status(201).send();
+  const newUser = addUser(userToAdd);
+  res.status(201).send(newUser);
 
 });
 
